@@ -10,7 +10,8 @@
 #define X_POSITION 15
 #define TEXT_START_POSITION 0
 
-LiquidCrystal lcd(12, 11, 10, 9, 8, 7);
+const int rs = 8, en = 9, d4 = 13, d5 = 12, d6 = 11, d7 = 10;
+LiquidCrystal lcd(rs, en, d4, d5, d6, d7);
 
 int menuPosition = 0;
 int menuDept = 0;
@@ -27,7 +28,7 @@ void setup() {
   menuPosition = 0;
 }
 
-void showMenu() {
+/* void showMenu() {
   lcd.print( "Austeilen" );
   if ( menuPosition == 0 )
   {
@@ -64,7 +65,7 @@ void showMenu() {
 
   lcd.setCursor( 0, 0 );
   delay( 100 );
-}
+} */
 
 void newGame() {
   // Start Cursor Position
@@ -92,13 +93,5 @@ void newGame() {
 }
 
 void loop() {
-  
-  switch (menuDept) {
-    case 0:
-      showMenu();
-      break;
-    case 1:
-      newGame();
-      break;
-  }
+  newGame();
 }
