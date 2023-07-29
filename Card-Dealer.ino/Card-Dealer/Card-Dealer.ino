@@ -84,15 +84,7 @@ void showMenu() {
   // Don't switch menu position while a value is been edited
   if( !editMode )
   {
-    if ( digitalRead(DOWN_BUTTON) == LOW )
-    {
-      menuPosition = 1;
-    }
-
-    if ( digitalRead(UP_BUTTON) == LOW)
-    {
-      menuPosition = 0;
-    }
+    switchMenuPosition();
   }
 
   lcd.setCursor( 0, 0 );
@@ -104,6 +96,19 @@ void loop() {
   //dealCard();
   turn();
 
+}
+
+void switchMenuPosition()
+{
+  if ( digitalRead(DOWN_BUTTON) == LOW )
+  {
+    menuPosition = 1;
+  }
+
+  if ( digitalRead(UP_BUTTON) == LOW)
+  {
+    menuPosition = 0;
+  }
 }
 
 int editCount( bool editMode, int count, int minValue, int maxValue )
