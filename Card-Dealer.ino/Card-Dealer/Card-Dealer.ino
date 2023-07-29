@@ -11,6 +11,7 @@
 
 #define X_POSITION 15
 #define TEXT_START_POSITION 0
+#define COUNT_POSITION 12
 
 RBD::Button button(0, false);
 
@@ -25,6 +26,8 @@ int menuDept = 0;
 
 int playerCount = 4;
 int cardCount = 1;
+
+bool editMode = false;
 
 void setup() {
   lcd.begin(16, 2);
@@ -43,6 +46,8 @@ void setup() {
 
 void showMenu() {
   lcd.print( "Anz Spieler:" );
+  lcd.setCursor( COUNT_POSITION, 0 );
+  lcd.print( playerCount );
   if ( menuPosition == 0 )
   {
     lcd.setCursor( X_POSITION, 1);
@@ -55,25 +60,39 @@ void showMenu() {
   }
 
   lcd.setCursor( X_POSITION, menuPosition );
+  
   lcd.print( "X" );
-  lcd.setCursor(0, 1);
-  lcd.print( "Anz Karten" );
+  
+ 
+  lcd.setCursor(TEXT_START_POSITION, 1);
+  lcd.print( "Anz Karten:" );
+  lcd.setCursor( COUNT_POSITION, 1 );
+  lcd.print( cardCount );
 
-  if ( digitalRead(DOWN_BUTTON) == LOW )
+  if( digitalRead( CONFIRM_BUTTON ) == LOW )
   {
-    menuPosition = 1;
+    if( menuPosition == 0 )
+    {
+      playerCount = editCount( editMode, playerCount, 2, 10 );
+    }
+    else if( menuPosition == 1 )
+    {
+      cardCount = editCount( editMode, cardCount, 1, 15 );
+    }
   }
 
-  if ( digitalRead(UP_BUTTON) == LOW)
+  // Don't switch menu position while a value is been edited
+  if( !editMode )
   {
-    menuPosition = 0;
-  }
+    if ( digitalRead(DOWN_BUTTON) == LOW )
+    {
+      menuPosition = 1;
+    }
 
-
-  if ( digitalRead(CONFIRM_BUTTON) == LOW)
-  {
-    menuDept = 1;
-    lcd.clear();
+    if ( digitalRead(UP_BUTTON) == LOW)
+    {
+      menuPosition = 0;
+    }
   }
 
   lcd.setCursor( 0, 0 );
@@ -82,9 +101,61 @@ void showMenu() {
 
 void loop() {
   //showMenu();
-  //turn();
-  dealCard();
+  //dealCard();
+  turn();
 
+}
+
+int editCount( bool editMode, int count, int minValue, int maxValue )
+{
+
+  if( !editMode && digitalRead( CONFIRM_BUTTON ) == LOW )
+  {
+    editMode = true;
+    lcd.setCursor( X_POSITION, menuPosition );
+    lcd.print( "<" );
+  }
+  else if( editMode && digitalRead( CONFIRM_BUTTON ) == LOW )
+  {
+    editMode = false;
+    lcd.setCursor( X_POSITION, menuPosition );
+    lcd.print( "X" );
+  }
+
+  delay( 500 );
+
+  while( editMode )
+  {
+    
+    if( digitalRead( DOWN_BUTTON ) == LOW )
+    {
+      if( count > minValue )
+      {
+        count = count - 1;
+      }
+    }
+    
+    if( digitalRead(UP_BUTTON) == LOW )
+    {
+      if( count < maxValue )
+      {
+        count = count + 1;
+      }
+    }
+
+    if( digitalRead( CONFIRM_BUTTON ) == LOW )
+    {
+      editMode = false;
+    }
+    
+    lcd.setCursor( COUNT_POSITION + 1, menuPosition );
+    lcd.print( " " );
+    lcd.setCursor( COUNT_POSITION, menuPosition );
+    lcd.print( count );
+    delay( 200 );
+  }
+
+  return count;
 }
 
 void debug()
