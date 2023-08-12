@@ -16,7 +16,7 @@
 RBD::Button button(0, false);
 
 int maxSteps = 2048;
-Stepper Schrittmotor(maxSteps, 3, 5, 4, 6);
+Stepper Schrittmotor(maxSteps, 4, 6, 5, 7);
 
 const int rs = 8, en = 9, d4 = 13, d5 = 12, d6 = 11, d7 = 10;
 LiquidCrystal lcd(rs, en, d4, d5, d6, d7);
@@ -32,7 +32,7 @@ bool editMode = false;
 void setup() {
   lcd.begin(16, 2);
 
-  Schrittmotor.setSpeed(3);
+  Schrittmotor.setSpeed(10);
 
   pinMode(UP_BUTTON, INPUT_PULLUP);
   pinMode(DOWN_BUTTON, INPUT_PULLUP);
