@@ -85,6 +85,11 @@ void showMenu() {
   if( !editMode )
   {
     switchMenuPosition();
+
+    if( digitalRead( BACK_BUTTON ) == LOW )
+    {
+      dealCards();
+    }
   }
 
   lcd.setCursor( 0, 0 );
@@ -93,7 +98,7 @@ void showMenu() {
 
 void loop() {
   //showMenu();
-  //dealCard();
+  //dealCards();
   turn();
 
 }
@@ -186,7 +191,7 @@ void turn()
   }
 }
 
-void dealCard()
+void dealCards()
 {
   analogWrite( 5, 255);
 }
