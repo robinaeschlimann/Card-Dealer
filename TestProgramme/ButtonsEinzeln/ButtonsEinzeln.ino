@@ -14,7 +14,7 @@ int buttonState3 = 0;  // variable for reading the pushbutton status
 const int BUTTONPIN0 = 0;
 const int BUTTONPIN1 = 1;
 const int BUTTONPIN2 = 2;
-const int BUTTONPIN3 = 3;
+const int BUTTONPIN3 = A4;
 
 void setup() {
   // put your setup code here, to run once:

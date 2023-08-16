@@ -1,4 +1,4 @@
-const int dcMotorPin = 6;
+const int dcMotorPin = 3;
 
 void setup()
 {
